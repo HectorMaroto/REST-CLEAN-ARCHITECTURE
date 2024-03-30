@@ -1,2 +1,4 @@
 # REST-CLEAN-ARCHITECTURE
-REST API - Clean Architecture - Type
+
+> [!INFO]
+> REST API - Clean Architecture - TypeScript, Node.js, Express, MongoDB
