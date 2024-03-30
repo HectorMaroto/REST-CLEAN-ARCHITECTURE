@@ -1,0 +1,33 @@
+Resumen de la REST API con Clean - Architecture:
+
+-mongo/: no tiene importancia para el proyecto. Tenemos la conexión a mongodb mediante el contenedor de docker (docker-compose.yml)
+-node_modules/: contiene las librerías necesarias para ejecutar el proyecto
+-src/: contiene el código fuente de la aplicación
+-.env / .env.template: contienen las variables de entorno
+-.gitignore: especificamos que archivos no queremos subir al repositorio
+-package.json: contiene información del proyecto, las librerías de node instaladas y scripts de npm
+-package-lock.json: para mantener un historial de los paquetes instalados y optimizar la forma en que se generan las dependencias del proyecto 
+    y los contenidos de la carpeta node_modules/
+
+
+-src/:
+    -config/: configuraciones de la app (obtener variables de entorno, uso de ciertas librerías, patrones de validación, etc.)
+    -data/: referencias directas a su base de datos (postgre, mongo...). Desacoplamos los modelos de las entidades. Si queremos
+        cambiar mongo en un futuro, solo tendríamos que desechar los modelos de mongo y adaptar en infraestructura los modelos de 
+        la nueva BBDD.
+    -domain/: tendremos aquí la reglas de negocio de la app. No debería tener dependencias de terceros (ej.: npm)
+        -datasources/: reglas de como van a ser nuestros datasources (fuentes de datos).
+        -dtos/: objetos para transportar la info del usuario a través de las capas de la app hasta la entidad para ser insertada en BBDD.
+        -entities/: plantillas u objetos con los datos a insertar en BBDD (o parecidos). La aplicación trabajará con este modelo,
+            pero si queremos cambiar el nombre de un campo o propiedad, deberá hacerse el cambio en el mapper, para no afectar
+            a la integridad de la app y, de este modo, no sería necesario cambiar ningún dato en la entidad.
+        -error/: manejo personalizado de los errores.
+        -use-cases/: indicamos a otros qué tienen que hacer, qué llamar, con qué dependencias o inyección de dependencias 
+            necesita para ejecutar algo.
+    -infrastructure/: implementaciones (auth.datasource.impl, mappers, auth.repository.impl...).
+        -datasources/: donde debemos hacer las modificaciones en caso de cambio de BBDD para no afectar a la app.
+        -mappers/: objeto que toma de argumento otro objeto, y los transforma al formato adecuado de la entidad para la inserción en BBDD.
+        -repositories/: son un puente. Llamamos a los datasource a través de los repositorios. Podemos cambiar el destino del puente sin problemas.
+    -presentation/: enfocado al usuario final (vistas)
+-app: punto de entrada o inicio de la app.
+
