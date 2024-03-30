@@ -21,6 +21,6 @@ App's flow:
 - The server validates user's credentials
 - The server generates a token and sign it with a secret key (generated with openssl)
 - The hashed jwt is sent with the linked user's info
-- With that jwt in the request header we can send the GET request to get the database's users and the last registered user as 'token' from the protected route.
+- With that jwt in the request header we can send the GET request to get the database's users and the last registered user as 'token' from the protected route if database validates token's sign properly.
 
 
